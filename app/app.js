@@ -107,6 +107,7 @@ App.controller('Main', function($scope, $http, $location, $timeout, $sce, ngAudi
    * Refresh the board
    */
   $scope.refresh = function() {
+    LxNotificationService.error('Refreshing');
     $scope.fetchPoints();
     $scope.render();
   };
