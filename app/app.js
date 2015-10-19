@@ -125,6 +125,7 @@ App.controller('Main', function($scope, $http, $location, $timeout, $sce, ngAudi
    * @param  {String} position The URI for the position
    */
   $scope.fetchPoints = function (position) {
+    navigator.vibrate(1000);
     $scope.points = 0;
     var storageURI = 'https://public.databox.me/Public/inbox/points.ttl';
     if ($location.search().storageURI) {
