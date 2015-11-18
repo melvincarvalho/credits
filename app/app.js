@@ -109,6 +109,7 @@ App.controller('Main', function($scope, $http, $location, $timeout, $sce, ngAudi
   $scope.refresh = function() {
     LxNotificationService.error('Refreshing');
     $scope.fetchPoints();
+    $scope.fetchSeeAlso();
     $scope.render();
   };
 
@@ -121,13 +122,12 @@ App.controller('Main', function($scope, $http, $location, $timeout, $sce, ngAudi
   //
   //
   /**
-   * Fetch the board
-   * @param  {String} position The URI for the position
+   * Fetch the points
    */
-  $scope.fetchPoints = function (position) {
+  $scope.fetchPoints = function () {
     navigator.vibrate(500);
     $scope.points = 0;
-    var storageURI = 'https://melvin.databox.me/Public/inbox/points.ttl';
+    var storageURI = 'https://melvin.databox.me/Public/inbox/';
     if ($location.search().storageURI) {
       storageURI = $location.search().storageURI;
     }
@@ -138,9 +138,23 @@ App.controller('Main', function($scope, $http, $location, $timeout, $sce, ngAudi
     f.requestURI(storageURI, undefined, true, function(ok, body) {
       var p = g.statementsMatching(undefined, undefined, undefined, $rdf.sym(storageURI));
       if (p.length) {
-        $scope.points = p[0].object.value;
+        //$scope.points = p[0].object.value;
+        $scope.points = 0;
         $scope.render();
       }
+    });
+  };
+
+  /**
+   * Fetch the seeAlso
+   */
+  $scope.fetchSeeAlso = function () {
+    var seeAlso = 'https://melvin.databox.me/Public/inbox/points.ttl';
+    if ($location.search().seeAlso) {
+      storageURI = $location.search().seeAlso;
+    }
+    g.nowOrWhenFetched(seeAlso, true, function(ok, body) {
+      console.log('seeAlso fetched from : ' + seeAlso);
     });
   };
 
@@ -207,14 +221,24 @@ App.controller('Main', function($scope, $http, $location, $timeout, $sce, ngAudi
   $scope.add = function(amount) {
     $scope.points = parseInt(amount) + parseInt($scope.points);
 
+    var tx  = "<#this>\n";
+        tx += "<https://w3id.org/cc#amount> "+ $scope.points +"  ;\n";
+        tx += "<https://w3id.org/cc#currency> <https://w3id.org/cc#bit> ;\n";
+        tx += "  <https://w3id.org/cc#destination> <http://melvincarvalho.com/#me> ;\n";
+        tx += "<https://w3id.org/cc#source> <https://workbot.databox.me/profile/card#me> ;\n";
+        tx += "a <https://w3id.org/cc#Credit> .\n";
+
+        console.log(tx);
+
     $http({
-      method: 'PUT',
+      method: 'POST',
       url: $scope.storageURI,
       withCredentials: true,
       headers: {
         "Content-Type": "text/turtle"
       },
-      data: '<> <> ' + $scope.points + ' .',
+
+      data: tx,
     }).
     success(function(data, status, headers) {
       LxNotificationService.success('Points saved');
@@ -226,7 +250,7 @@ App.controller('Main', function($scope, $http, $location, $timeout, $sce, ngAudi
     });
 
 
-    LxNotificationService.success('Add of '+ ammount +' Successful!');
+    //LxNotificationService.success('Add of '+ ammount +' Successful!');
   };
 
 
