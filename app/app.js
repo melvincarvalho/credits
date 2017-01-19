@@ -232,15 +232,6 @@ App.controller('Main', function($scope, $http, $location, $timeout, $sce, ngAudi
 
         console.log(tx);
 
-
-        <#this>  a <https://w3id.org/cc#Credit> ;
-        <https://w3id.org/cc#source>   <https://workbot.databox.me/profile/card#me>    ;
-        <https://w3id.org/cc#destination>      <https://melvincarvalho.com/#me> ;
-        <https://w3id.org/cc#wallet>      <http://melvincarvalho.com/wallet/small.ttl#this> ;
-        <https://w3id.org/cc#amount> 30 ;
-        <https://w3id.org/cc#description> "quick.taskify.org" ;
-        <https://w3id.org/cc#currency>      <https://w3id.org/cc#bit> .
-
     $http({
       method: 'POST',
       url: $scope.storageURI,
