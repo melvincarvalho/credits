@@ -226,7 +226,7 @@ App.controller('Main', function($scope, $http, $location, $timeout, $sce, ngAudi
         tx += "<https://w3id.org/cc#currency> <https://w3id.org/cc#bit> ;\n";
         tx += "  <https://w3id.org/cc#destination> <http://melvincarvalho.com/#me> ;\n";
         tx += "<https://w3id.org/cc#source> <https://workbot.databox.me/profile/card#me> ;\n";
-        tx += "<https://w3id.org/cc#description> "mobile" ;\n";
+        tx += "<https://w3id.org/cc#description> \"mobile\" ;\n";
         tx += "<https://w3id.org/cc#wallet>      <http://melvincarvalho.com/wallet/small.ttl#this> ;\n";
         tx += "a <https://w3id.org/cc#Credit> .\n";
 
