@@ -127,7 +127,7 @@ App.controller('Main', function($scope, $http, $location, $timeout, $sce, ngAudi
   $scope.fetchPoints = function () {
     navigator.vibrate(500);
     $scope.points = 0;
-    var storageURI = 'https://melvin.databox.me/Public/inbox/';
+    var storageURI = 'https://melvin.solid.live/inbox/';
     if ($location.search().storageURI) {
       storageURI = $location.search().storageURI;
     }
